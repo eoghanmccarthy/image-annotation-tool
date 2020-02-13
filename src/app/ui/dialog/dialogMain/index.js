@@ -1,6 +1,8 @@
 import React from "react";
 import cx from "classnames";
 
+import "./dialog-main.css";
+
 import baseProps from "../../baseProps";
 
 const DialogMain = baseProps(props => {

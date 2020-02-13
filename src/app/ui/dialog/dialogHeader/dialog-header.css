@@ -1,0 +1,13 @@
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  padding: 0 30px;
+  margin: 0 -30px;
+  border-bottom: 1px solid palette(grey, x-light);
+}
+
+.dialog-header h2 {
+  margin: 0;
+}

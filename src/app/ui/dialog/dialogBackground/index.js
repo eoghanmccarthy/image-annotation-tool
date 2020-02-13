@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
+import "./dialog-background.css";
+
 const DialogBackground = ({ children, disableBackdropClick, closeDialog }) => {
   const ref = useRef(null);
 

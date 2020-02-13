@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import { useTransition, animated } from "react-spring";
 import cx from "classnames";
 
+import "./content-overlay.css";
+
 const rootNode = document.getElementById("app-root");
 
 const n = () => null;

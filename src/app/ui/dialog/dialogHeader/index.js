@@ -1,7 +1,8 @@
 import React from "react";
 import { string } from "prop-types";
-
 import cx from "classnames";
+
+import "./dialog-header.css";
 
 import baseProps from "../../baseProps";
 

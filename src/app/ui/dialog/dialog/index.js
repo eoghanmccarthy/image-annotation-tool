@@ -4,6 +4,8 @@ import { useTransition, animated, config } from "react-spring";
 import FocusLock from "react-focus-lock";
 import cx from "classnames";
 
+import "./dialog.css";
+
 import Button from "../../button";
 import dialogBase from "../dialogBase";
 import DialogBackground from "../dialogBackground";
