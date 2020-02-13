@@ -6,7 +6,7 @@ import "./tool.css";
 
 import { ImageContext } from "./context";
 
-import Button from "./button";
+import Button from "../ui/button";
 import List from "./list";
 import Shape from "./shape";
 import RectTransformer from "./transformer";
