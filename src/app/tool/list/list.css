@@ -1,0 +1,25 @@
+#items {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow: auto;
+}
+
+#items .item {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 15px 0 10px;
+  border: 1px solid grey;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  font-style: italic;
+}
+
+#items .item:last-child {
+  margin-bottom: 0;
+}
+
+#items .item.selected {
+  background-color: #6514ff;
+}
