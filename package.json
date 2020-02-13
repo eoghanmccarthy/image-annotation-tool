@@ -14,8 +14,10 @@
     "konva": "3.2.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-focus-lock": "2.2.1",
     "react-konva": "16.8.6",
     "react-scripts": "^2.1.8",
+    "react-spring": "8.0.27",
     "shortid": "2.2.14"
   },
   "devDependencies": {
