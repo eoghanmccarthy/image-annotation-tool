@@ -1,0 +1,14 @@
+.button-block {
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+.button-block > .btn {
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.button-block > .btn:last-child {
+  margin-right: 0;
+}

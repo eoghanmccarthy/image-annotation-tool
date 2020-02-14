@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, {
+  Fragment,
+  useState,
+  useEffect,
+  useContext,
+  useRef
+} from "react";
 import { Stage, Layer, Group, Image } from "react-konva";
 import shortid from "shortid";
 
@@ -6,7 +12,8 @@ import "./tool.css";
 
 import { ImageContext } from "./context";
 
-import { Button } from "../ui/button";
+import { Button, ButtonBlock } from "../ui/button";
+import { Dialog, DialogHeader, DialogMain } from "../ui/dialog";
 import List from "./list";
 import Shape from "./shape";
 import RectTransformer from "./transformer";
@@ -18,6 +25,8 @@ import getScaledCenteredPosition from "./helpers/getScaledCenteredPosition";
 
 const colours = ["#6514ff", "#ff6514", "#14ff65"];
 const shapeClassNames = ["Rect", "Circle", "Ring"];
+
+const n = () => null;
 
 const Tool = () => {
   const imageCxt = useContext(ImageContext);
@@ -33,6 +42,8 @@ const Tool = () => {
 
   const [stageInitialScale, setStageInitialScale] = useState({ x: 1, y: 1 });
   const [viewFinder, setViewFinder] = useState(null);
+
+  const [showConfirmDialog, toggleConfirmDialog] = useState(false);
 
   const [rectangles, setRectangles] = useState([]);
   const [rectCount, setRectCount] = useState(0);
@@ -280,66 +291,114 @@ const Tool = () => {
   };
 
   return (
-    <main id={"tool"}>
-      <section id={"list"}>
-        <Button onClick={getImage} />
-        <Button onClick={handleResetStageValues} />
-        <List
-          data={rectangles || []}
-          selectedShapeName={selectedShapeName}
-          setSelectedShapeName={setSelectedShapeName}
-        />
-      </section>
-      <section id={"canvas"}>
-        <div id="stage-container">
-          <Stage
-            draggable
-            ref={stageRef}
-            container={"stage-container"}
-            width={745}
-            height={480}
-            onContentContextMenu={e => e.evt.preventDefault()}
-            onMouseDown={_onStageMouseDown}
-            onMouseMove={mouseDown && _onNewRectChange}
-            onMouseUp={mouseDown && _onStageMouseUp}
-            onDragStart={handleOnStageDragStart}
-            onDragMove={handleOnStageDragMove}
-            onWheel={handleOnWheel}
-          >
-            <Layer ref={shapeLayerRef}>
-              <Group ref={shapeGroupRef}>
-                {rectangles.map((rect, i) => {
-                  const { id, name } = rect;
+    <Fragment>
+      <ConfirmDialog
+        title={"confirm"}
+        isVisible={showConfirmDialog}
+        closeDialog={() => toggleConfirmDialog(prev => !prev)}
+      />
+      <main id={"tool"}>
+        <section id={"list"}>
+          <Button onClick={getImage} />
+          <Button onClick={handleResetStageValues} />
+          <Button onClick={() => toggleConfirmDialog(prev => !prev)} />
+          <List
+            data={rectangles || []}
+            selectedShapeName={selectedShapeName}
+            setSelectedShapeName={setSelectedShapeName}
+          />
+        </section>
+        <section id={"canvas"}>
+          <div id="stage-container">
+            <Stage
+              draggable
+              ref={stageRef}
+              container={"stage-container"}
+              width={745}
+              height={480}
+              onContentContextMenu={e => e.evt.preventDefault()}
+              onMouseDown={_onStageMouseDown}
+              onMouseMove={mouseDown && _onNewRectChange}
+              onMouseUp={mouseDown && _onStageMouseUp}
+              onDragStart={handleOnStageDragStart}
+              onDragMove={handleOnStageDragMove}
+              onWheel={handleOnWheel}
+            >
+              <Layer ref={shapeLayerRef}>
+                <Group ref={shapeGroupRef}>
+                  {rectangles.map((rect, i) => {
+                    const { id, name } = rect;
 
-                  if (!id || !name) {
-                    return null;
-                  }
+                    if (!id || !name) {
+                      return null;
+                    }
 
-                  return (
-                    <Shape
-                      key={i}
-                      {...rect}
-                      stageInitialScale={stageInitialScale}
-                      onTransform={newProps => {
-                        _onRectChange(i, newProps);
-                      }}
-                    />
-                  );
-                })}
-                <RectTransformer
-                  stageInitialScale={stageInitialScale}
-                  selectedShapeName={selectedShapeName}
-                />
-              </Group>
-            </Layer>
-            <Layer ref={imgLayerRef}>
-              <Image ref={imageRef} height={480} width={745} image={image} />
-            </Layer>
-          </Stage>
-        </div>
-      </section>
-    </main>
+                    return (
+                      <Shape
+                        key={i}
+                        {...rect}
+                        stageInitialScale={stageInitialScale}
+                        onTransform={newProps => {
+                          _onRectChange(i, newProps);
+                        }}
+                      />
+                    );
+                  })}
+                  <RectTransformer
+                    stageInitialScale={stageInitialScale}
+                    selectedShapeName={selectedShapeName}
+                  />
+                </Group>
+              </Layer>
+              <Layer ref={imgLayerRef}>
+                <Image ref={imageRef} height={480} width={745} image={image} />
+              </Layer>
+            </Stage>
+          </div>
+        </section>
+      </main>
+    </Fragment>
   );
 };
 
 export default Tool;
+
+const ConfirmDialog = ({
+  isVisible,
+  title = "",
+  onConfirm = n,
+  closeDialog,
+  onDestroy = n
+}) => {
+  return (
+    <Dialog
+      isVisible={isVisible}
+      closeDialog={closeDialog}
+      onDestroy={() => (onDestroy ? onDestroy() : null)}
+    >
+      <DialogHeader title={title} />
+      <DialogMain>
+        <p>sure?</p>
+        <ButtonBlock>
+          <Button
+            className={"md capsule"}
+            onClick={closeDialog}
+            variant={"outlined"}
+          >
+            <span>cancel</span>
+          </Button>
+          <Button
+            className={"md capsule"}
+            onClick={() => {
+              onConfirm();
+              closeDialog();
+            }}
+            variant={"contained"}
+          >
+            <span>okay</span>
+          </Button>
+        </ButtonBlock>
+      </DialogMain>
+    </Dialog>
+  );
+};

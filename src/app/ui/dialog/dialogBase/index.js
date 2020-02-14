@@ -6,14 +6,14 @@ import baseProps from "../../baseProps";
 
 import ContentOverlay from "../contentOverlay";
 
-const rootNode = document.getElementById("app-root");
+const rootNode = document.getElementById("root");
 
 const n = () => null;
 
 const baseDialog = Component => {
   const BaseDialog = ({
     transparent = false,
-    attachToRoot = true,
+    attachToRoot = false,
     attachToElementId = "",
     isVisible = false,
     disableAnim = false,
