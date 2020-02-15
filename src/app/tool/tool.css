@@ -1,7 +1,7 @@
 #tool {
   display: grid;
   grid-gap: 30px;
-  grid-template-columns: 240px 745px;
+  grid-template-columns: 240px 720px;
   height: 480px;
 }
 

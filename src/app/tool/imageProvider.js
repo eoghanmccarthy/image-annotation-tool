@@ -9,7 +9,6 @@ const images = [
 ];
 
 const ImageProvider = ({ children }) => {
-  const [isInitialised, setIsInitialised] = useState(false);
   const [image, setImage] = useState(null);
 
   useEffect(() => {
@@ -17,14 +16,13 @@ const ImageProvider = ({ children }) => {
   }, []);
 
   const handleGetImage = () => {
-    setIsInitialised(false);
+    setImage(null);
 
     const url = images[Math.floor(Math.random() * images.length)];
 
     const img = new window.Image();
     img.src = url;
     img.onload = () => {
-      setIsInitialised(true);
       setImage(img);
     };
     return image;
@@ -33,14 +31,13 @@ const ImageProvider = ({ children }) => {
   const values = useMemo(() => {
     return {
       value: {
-        imageIsInitialised: isInitialised,
         image: image
       },
       actions: {
         getImage: handleGetImage
       }
     };
-  }, [isInitialised, image]);
+  }, [image]);
 
   return (
     <ImageContext.Provider value={values}>{children}</ImageContext.Provider>

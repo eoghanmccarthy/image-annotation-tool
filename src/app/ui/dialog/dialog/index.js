@@ -6,7 +6,6 @@ import cx from "classnames";
 
 import "./dialog.css";
 
-import { Button } from "../../button";
 import dialogBase from "../dialogBase";
 import DialogBackground from "../dialogBackground";
 
@@ -21,7 +20,6 @@ const Dialog = forwardRef(
       disableAnim,
       isRaised = true,
       disableBackdropClick = false,
-      hideCloseBtn = false,
       ...rest
     },
     forwardedRef
@@ -46,16 +44,6 @@ const Dialog = forwardRef(
               disableBackdropClick={disableBackdropClick}
               closeDialog={closeDialog}
             >
-              {!hideCloseBtn && (
-                <Button
-                  className={"xl circle btn__close-modal"}
-                  colour={"white"}
-                  onClick={closeDialog}
-                  variant={"contained"}
-                >
-                  <i className={"icon icon-close"} />
-                </Button>
-              )}
               <animated.div
                 ref={forwardedRef}
                 tabIndex={"-1"}

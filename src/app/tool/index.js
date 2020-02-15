@@ -58,6 +58,17 @@ const Tool = () => {
   }, [imgLayerRef]);
 
   useEffect(() => {
+    const stage = stageRef.current;
+
+    if (image) {
+      handleSetStageInitialValues();
+    } else {
+      stage.clear();
+      setSelectedShapeName("");
+    }
+  }, [image]);
+
+  useEffect(() => {
     window.addEventListener("resize", handleSetStageInitialValues, false);
     return () => {
       window.removeEventListener("resize", handleSetStageInitialValues, false);
@@ -66,6 +77,10 @@ const Tool = () => {
 
   const handleSetStageInitialValues = async () => {
     const { offsetWidth, offsetHeight } = document.getElementById("canvas");
+
+    if (!image) {
+      return;
+    }
 
     const stage = stageRef.current;
 
@@ -102,8 +117,6 @@ const Tool = () => {
     ).catch(err => {
       console.log(err);
     });
-
-    //imageRef.current.setAttrs(position);
 
     shapeGroupRef.current.setAttrs({
       width: image.width * scale,
@@ -314,7 +327,7 @@ const Tool = () => {
               draggable
               ref={stageRef}
               container={"stage-container"}
-              width={745}
+              width={720}
               height={480}
               onContentContextMenu={e => e.evt.preventDefault()}
               onMouseDown={_onStageMouseDown}
@@ -351,7 +364,12 @@ const Tool = () => {
                 </Group>
               </Layer>
               <Layer ref={imgLayerRef}>
-                <Image ref={imageRef} height={480} width={745} image={image} />
+                <Image
+                  ref={imageRef}
+                  name={"image"}
+                  onContextMenu={false}
+                  image={image}
+                />
               </Layer>
             </Stage>
           </div>
